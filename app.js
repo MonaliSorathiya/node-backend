@@ -1,0 +1,10 @@
+const express = require('express');
+const app = express();
+
+app.get('/', (req, res) => {
+    res.json({
+        message: 'Hello Node, Welcome to AWS'
+    })
+})
+
+app.listen(3000)
