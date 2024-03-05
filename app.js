@@ -15,31 +15,30 @@ mongoose
     })
 app.use(bodyParser.json());
 app.use(cors());
-app.use((req, res, next) => {
-    res.setHeader("Access-Control-Allow-Origin", "*");
-    res.setHeader(
-        "Access-Control-Allow-Header",
-        "Origin, X-Requested-With, Content-Type, Accept"
-    );
-    res.setHeader(
-        "Access-Control-Allow-Methods",
-        "GET, POST, PATCH, DELETE, OPTIONS"
-    );
-    res.setHeader(
-        "Access-Control-Allow-Headers",
-        "Access-Control-Allow-Headers, Origin,Accept, X-Requested-With, Content-Type, Access-Control-Request-Method, Access-Control-Request-Headers"
-    );
+app.use(function (req, res, next) {
+    res.setHeader('Access-Control-Allow-Origin', '*');
+    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
+    res.setHeader('Access-Control-Allow-Headers', '*');
+    res.setHeader('Access-Control-Allow-Credentials', true);
+    res.setHeader('access-control-expose-headers', 'access-token')
     next();
 });
 
-let routes = require("./routes/routes.js");
-app.use("/api", routes);
+// Parse requests of content-type - application/json
+app.use(bodyParser.json())
+app.use(function (req, res, next) {
+    res.header("Access-Control-Allow-Origin", "*");
+    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+    next();
+});
 
-app.get('/', (req, res) => {
-    res.json({
-        message: 'Hello Node, Welcome to AWS'
-    })
-})
+require('./routes/routes.js')(app);
+
+// app.get('/', (req, res) => {
+//     res.json({
+//         message: 'Hello Node, Welcome to AWS'
+//     })
+// })
 
 // Listen for requests
 app.listen(port, () => {

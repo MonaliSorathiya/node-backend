@@ -1,14 +1,24 @@
-const express = require("express");
-const router = express.Router();
-const productsController = require('../controllers/productsController.js');
-const customerDetailsController = require('../controllers/customerDetailsController.js')
+module.exports = (app) => {
+    const productsController = require('../controllers/productsController.js');
+    const customerDetailsController = require('../controllers/customerDetailsController.js')
+    const cors = require('cors');
 
-router.route("/userDetails/registerNewCustomer").post(customerDetailsController.registerNewCustomer);
-router.route("/userDetails/loginCustomer").post(customerDetailsController.loginCustomer);
-router.route("/products/addNewProduct").post(productsController.addNewProduct);
-router.route("/products/getAllProducts").get(productsController.getAllProducts);
-router.route("/products/:productId").get(productsController.findOneProduct);
-router.route("/products/updateProducts").post(productsController.updateProducts);
+    //=========CORS enabling========================//
 
+    app.use(function (req, res, next) {
+        res.setHeader('Access-Control-Allow-Origin', '*');
+        res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
+        res.setHeader('Access-Control-Allow-Headers', '*');
+        res.setHeader('Access-Control-Allow-Credentials', true);
+        res.setHeader('access-control-expose-headers', 'access-token');
+        next();
+    });
 
-module.exports = router;
+    app.post('/api/registerNewCustomer', customerDetailsController.registerNewCustomer);
+    app.post('/api/loginCustomer', customerDetailsController.loginCustomer);
+    app.post('/api/addNewProduct', productsController.addNewProduct);
+    app.post('/api/updateProducts', productsController.updateProducts);
+    app.get('/api/:productId', productsController.findOneProduct);
+    app.get('/api/getAllProducts', productsController.getAllProducts);
+
+}
