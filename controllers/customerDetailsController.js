@@ -3,7 +3,7 @@ const Customer = require('../models/customerDetailsModel.js');
 
 // Handling user signup
 exports.registerNewCustomer = async (req, res) => {
-    console.log('req:registerNewCustomer ', req.body);
+    console.log('Req Body:- Register Customer', req.body);
     Customer
         .find({ email: req.body.email })
         .exec()
@@ -26,7 +26,7 @@ exports.registerNewCustomer = async (req, res) => {
                         });
                     })
                     .catch((err) => {
-                        console.log("registerNewCustomer",err);
+                        console.log("Error:- Register",err);
                         res.status(500).json({
                             error: err,
                         });
@@ -37,10 +37,11 @@ exports.registerNewCustomer = async (req, res) => {
 
 //Handling user login
 exports.loginCustomer = async (req, res) => {
-    console.log('req:loginCustomer ', req.body);
+    console.log('Req Body:- Login Customer', req.body);
     try {
         // check if the user exists
         const user = await Customer.findOne({ username: req.body.username });
+        console.log('User: ', user);
         if (user) {
             //check if password matches
             const result = req.body.password === user.password;
@@ -53,6 +54,7 @@ exports.loginCustomer = async (req, res) => {
             return res.send({ error: "User doesn't exist" });
         }
     } catch (error) {
+        console.log('Error:-Login User: ', error);
         res.status(400).json({ error });
     }
 };
