@@ -34,11 +34,11 @@ app.use((req, res, next) => {
 let routes = require("./routes/routes.js");
 app.use("/api", routes);
 
-// app.get('/', (req, res) => {
-//     res.json({
-//         message: 'Hello Node, Welcome to AWS'
-//     })
-// })
+app.get('/', (req, res) => {
+    res.json({
+        message: 'Hello Node, Welcome to AWS'
+    })
+})
 
 // Listen for requests
 app.listen(port, () => {
