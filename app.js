@@ -4,16 +4,22 @@ const bodyParser = require('body-parser');
 const cors = require('cors');
 const app = express();
 const port = process.env.PORT || 3000;
-
+const options = {
+    socketTimeoutMS: 0,
+    connectTimeoutMS: 0,
+};
 //.connect('mongodb://127.0.0.1:27017/GenieStore')
 mongoose
-    .connect('mongodb://mongoadmin:mongoadmin@13.234.67.201:27017/GenieStore?authSource=admin')
+    .connect('mongodb://mongoadmin:mongoadmin@13.234.67.201:27017/GenieStore?authSource=admin', options)
     .then((x) => {
         console.log(`Connected to ${x.connections[0].name}`)
     })
     .catch((err) => {
-        console.error('Error occurs while connecting to the database, ', err.reason)
+        console.log('Could not connect to the database:::', err);
+        console.error('Error occurs while connecting to the database:::', err.reason);
+        process.exit();
     })
+
 app.use(bodyParser.json());
 app.use(cors());
 app.use((req, res, next) => {
