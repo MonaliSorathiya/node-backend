@@ -5,12 +5,13 @@ const cors = require('cors');
 const app = express();
 const port = process.env.PORT || 3000;
 const options = {
-    socketTimeoutMS: 0,
-    connectTimeoutMS: 0,
+    useNewUrlParser: true,
+    useUnifiedTopology: true
 };
 //.connect('mongodb://127.0.0.1:27017/GenieStore')
+//mongodb://mongoadmin:mongoadmin@13.234.67.201:27017/GenieStore?authSource=admin
 mongoose
-    .connect('mongodb://mongoadmin:mongoadmin@13.234.67.201:27017/GenieStore?authSource=admin', options)
+    .connect('mongodb://mongoadmin:mongoadmin@13.234.67.201:27017/GenieStore?authSource=admin&directConnection=true', options)
     .then((x) => {
         console.log(`Connected to ${x.connections[0].name}`)
     })
