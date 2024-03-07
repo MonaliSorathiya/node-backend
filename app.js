@@ -5,8 +5,9 @@ const cors = require('cors');
 const app = express();
 const port = process.env.PORT || 3000;
 
+//.connect('mongodb://127.0.0.1:27017/GenieStore')
 mongoose
-    .connect('mongodb://127.0.0.1:27017/Genie-Store')
+    .connect('mongodb://mongoadmin:mongoadmin@13.234.67.201:27017/GenieStore?authSource=admin')
     .then((x) => {
         console.log(`Connected to ${x.connections[0].name}`)
     })
